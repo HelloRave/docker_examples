@@ -16,6 +16,7 @@ services:
           - docker
     command: --storage-driver=overlay2
   jenkins-custom:
+    # image: rpcicd-jenkins-custom:latest
     build: .
     ports:
       - 8080:8080
