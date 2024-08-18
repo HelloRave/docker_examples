@@ -1,5 +1,6 @@
 services:
-  jenkins-docker:
+  # dind
+  dind:
     image: docker:dind
     ports:
       - 2376:2376
@@ -15,9 +16,11 @@ services:
         aliases:
           - docker
     command: --storage-driver=overlay2
+
+  # jenkins
   jenkins-custom:
-    # image: rpcicd-jenkins-custom:latest
-    build: .
+    image: jenkins-sonarqube-jenkins-custom:latest
+    # build: . # build image from Dockerfile if not exist
     ports:
       - 8080:8080
       - 50000:50000
@@ -31,6 +34,8 @@ services:
       - jenkins-data:/var/jenkins_home
     networks:
       jenkins:
+
+  # sonarqube
   sonarqube:
     image: sonarqube:lts-community
     ports:
@@ -46,16 +51,16 @@ services:
 
 volumes:
   jenkins-docker-certs:
-    external: true
+    external: true # comment out if volume not exist locally
   jenkins-data:
-    external: true
+    external: true # comment out if volume not exist locally
   sonarqube_data:
-    external: true
+    external: true # comment out if volume not exist locally
   sonarqube_extensions:
-    external: true
+    external: true # comment out if volume not exist locally
   sonarqube_logs:
-    external: true
+    external: true # comment out if volume not exist locally
 
 networks:
   jenkins:
-    external: true
+    external: true # comment out if volume not exist locally
